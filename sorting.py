@@ -41,6 +41,9 @@ class Array:
     def get_len(self):
         return len(self.values)
 
+    def get_max(self):
+        return max(self.values)
+
 
 def bubble_sort(nums):  # n^2
     # We set swapped to True so the loop looks runs at least once
@@ -212,3 +215,42 @@ def quick_sort(nums):  # n^2
             _quick_sort(items, split_index + 1, high)
 
     _quick_sort(nums, 0, nums.get_len() - 1)
+
+
+def shell_sort(nums): #n^2
+    # Getting length of the array
+    n=nums.get_len()
+    # Begin with a large value of h, then consistently reduce it
+    h=n//2
+    # Performing an insertion sort with a gap of size h.
+    # Initial elements nums[0..h-1] are
+    while(h>0):
+        for i in range(h,n): 
+            temp = nums.values[i] 
+            # Shift earlier h-sorted elements till the accurate index of nums[i] is found
+            j = i 
+            while j >= h and nums.values[j-h]>temp: 
+                nums.set(j,nums.values[j-h]) 
+                j -= h
+            # Inserting temp in correct location
+            nums.set(j,temp) 
+        # Decreasing h till it becomes 1 when it becomes a regular insertion sort
+        h //= 2
+
+
+def counting_sort(nums): #n+k where k is the range of input
+    n=nums.get_len()
+    #getting maximum value
+    max_val = nums.get_max()
+    m = max_val + 1
+    #count array
+    count = [0] * m                
+    for i in range(n):
+        # count occurences
+        a=nums.values[i]
+        count[a] =count[a] + 1             
+    i = 0
+    for a in range(m):            
+        for c in range(count[a]):  
+            nums.set(i, a)
+            i += 1
